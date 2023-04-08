@@ -4,6 +4,7 @@
   "package": "de.hglabor.random.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "block.DoorBlockMixin"
   ],
   "client": [
   ],
