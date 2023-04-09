@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     id("fabric-loom")
+    kotlin("plugin.serialization") version "1.8.10"
     `maven-publish`
     java
 }

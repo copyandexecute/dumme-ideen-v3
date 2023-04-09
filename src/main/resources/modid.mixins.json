@@ -4,9 +4,15 @@
   "package": "de.hglabor.random.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "block.DoorBlockMixin"
+    "block.DoorBlockMixin",
+    "entity.player.PlayerEntityMixin"
   ],
   "client": [
+    "client.KeyboardMixin",
+    "client.MouseMixin",
+    "client.input.KeyboardInputMixin",
+    "client.option.GameOptionsMixin",
+    "client.render.CameraMixin"
   ],
   "injectors": {
     "defaultRequire": 1
