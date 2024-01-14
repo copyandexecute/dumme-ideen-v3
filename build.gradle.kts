@@ -1,33 +1,39 @@
 plugins {
-    kotlin("jvm")
-    id("fabric-loom")
-    kotlin("plugin.serialization") version "1.8.10"
+    kotlin("jvm") version "1.8.22"
+    id("fabric-loom") version "1.4-SNAPSHOT"
+    kotlin("plugin.serialization") version "1.8.22"
     `maven-publish`
     java
 }
 
-group = property("maven_group")!!
-version = property("mod_version")!!
+val mcVersion = "1.20.1"
+val silkVersion = "1.10.0"
+
+group = "gg.norisk"
+version = "${mcVersion}-1.0.0"
 
 repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
+    mavenCentral()
+    maven("https://maven.kosmx.dev/")
+    maven {
+        name = "GeckoLib"
+        url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    }
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:${property("minecraft_version")}")
-    mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
-    modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
+    minecraft("com.mojang:minecraft:$mcVersion")
+    mappings("net.fabricmc:yarn:$mcVersion+build.2")
+    modImplementation("net.fabricmc:fabric-loader:0.15.0")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:0.83.1+$mcVersion")
+    modImplementation("net.fabricmc:fabric-language-kotlin:1.9.5+kotlin.1.8.22")
 
-    modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+    include(modImplementation("net.silkmc:silk-commands:$silkVersion")!!)
+    include(modImplementation("net.silkmc:silk-core:$silkVersion")!!)
+    include(modImplementation("net.silkmc:silk-network:$silkVersion")!!)
 
-    modImplementation("net.silkmc:silk-commands:1.9.5")
-    modImplementation("net.silkmc:silk-core:1.9.5")
-    modImplementation("net.silkmc:silk-network:1.9.5")
+    modImplementation("software.bernie.geckolib:geckolib-fabric-$mcVersion:4.3.1")
+    modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:1.0.2-rc1+1.20")
 }
 
 tasks {
@@ -69,12 +75,5 @@ tasks {
 }
 
 java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
     withSourcesJar()
 }
-
-
-
-// configure the maven publication

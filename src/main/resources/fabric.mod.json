@@ -1,40 +1,36 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "subwaysurfers",
   "version": "${version}",
-
-  "name": "Example Mod",
+  "name": "SubwaySurfers",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Me!"
+    "NoRiskk"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
-
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
-
+  "license": "ARR",
+  "icon": "assets/subwaysurfers/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
       {
         "adapter": "kotlin",
-        "value": "net.fabricmc.example.RandomIdeas"
+        "value": "gg.norisk.subwaysurfers.SubwaySurfers"
       }
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "subwaysurfers.mixins.json"
   ],
-
   "depends": {
-    "fabricloader": ">=0.14.12",
+    "fabricloader": ">=0.15.0",
     "fabric": "*",
-    "minecraft": "1.19.x",
+    "minecraft": "*",
     "java": ">=17",
-    "fabric-language-kotlin": ">=1.9.0+kotlin.1.8.0"
+    "fabric-language-kotlin": "*"
   },
   "suggests": {
     "another-mod": "*"
