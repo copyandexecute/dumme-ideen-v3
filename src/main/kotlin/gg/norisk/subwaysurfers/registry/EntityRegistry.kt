@@ -17,7 +17,7 @@ import net.minecraft.registry.Registry
 
 object EntityRegistry {
     val TRAIN: EntityType<TrainEntity> = registerMob("train", ::TrainEntity, 4f, 2.5f)
-    val COIN: EntityType<CoinEntity> = registerMob("coin", ::CoinEntity, 0.6f, 0.5f)
+    val COIN: EntityType<CoinEntity> = registerMob("coin", ::CoinEntity, 0.3f, 0.3f)
 
     fun registerEntityAttributes() {
         FabricDefaultAttributeRegistry.register(TRAIN, createGenericEntityAttributes())

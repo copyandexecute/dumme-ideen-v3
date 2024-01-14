@@ -1,5 +1,6 @@
 package gg.norisk.subwaysurfers.entity
 
+import gg.norisk.subwaysurfers.subwaysurfers.coins
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -7,6 +8,9 @@ import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -17,9 +21,11 @@ import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegistrar
 import software.bernie.geckolib.util.GeckoLibUtil
+import java.util.UUID
 
 class CoinEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity {
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
+    var owner: UUID? = null
 
     init {
         this.ignoreCameraFrustum = true
@@ -34,6 +40,30 @@ class CoinEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntit
         }
 
         return super.interactMob(player, hand)
+    }
+
+    override fun tick() {
+        super.tick()
+        if (!world.isClient) {
+            val player = world.getPlayerByUuid(owner ?: return) ?: return
+            if (player.distanceTo(this) > 200) {
+                this.discard()
+            }
+        }
+    }
+
+    override fun onPlayerCollision(player: PlayerEntity) {
+        if (!world.isClient) {
+            player.coins++
+            player.sendMessage(Text.of("Coins: ${player.coins}"), true)
+            player.playSound(
+                SoundEvents.ENTITY_ITEM_PICKUP,
+                SoundCategory.PLAYERS,
+                0.5f,
+                3f
+            )
+            this.discard()
+        }
     }
 
     // Turn off step sounds since it's a bike

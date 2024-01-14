@@ -1,6 +1,7 @@
 package gg.norisk.subwaysurfers.mixin.entity.player;
 
 import gg.norisk.subwaysurfers.subwaysurfers.SubwaySurfer;
+import gg.norisk.subwaysurfers.subwaysurfers.SubwaySurferKt;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
@@ -41,13 +42,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements SubwaySu
 
     @Inject(method = "getDimensions", at = @At("RETURN"), cancellable = true)
     private void slidingHitboxInjection(EntityPose pose, CallbackInfoReturnable<EntityDimensions> cir) {
-        if (isSliding()) cir.setReturnValue(EntityDimensions.fixed(0.2f,0.2f));
+        if (isSliding()) cir.setReturnValue(EntityDimensions.fixed(0.2f, 0.2f));
     }
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     private void initDataTrackerInjection(CallbackInfo ci) {
         this.dataTracker.startTracking(RAIL, 1);
         this.dataTracker.startTracking(SLIDING, false);
+        this.dataTracker.startTracking(SubwaySurferKt.getCoinDataTracker(), 0);
     }
 
     @Override
