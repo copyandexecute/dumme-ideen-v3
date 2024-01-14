@@ -116,9 +116,7 @@ object SubwaySurfersManager {
     }*/
 
     private fun sendClientInput() {
-        if (!isEnabled) {
-            //return
-        }
+        if (true) return
         KeyEvents.keyPressedOnce.listen {
             if (it.client.options.leftKey.matchesKey(it.key, it.scanCode)) {
                 movementTypePacket.send(MovementType.LEFT)
