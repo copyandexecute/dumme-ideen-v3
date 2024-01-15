@@ -2,6 +2,7 @@ package gg.norisk.subwaysurfers.registry
 
 import gg.norisk.subwaysurfers.SubwaySurfers.toId
 import gg.norisk.subwaysurfers.entity.CoinEntity
+import gg.norisk.subwaysurfers.entity.ModifiedEntityDimensions
 import gg.norisk.subwaysurfers.entity.TrainEntity
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricEntityTypeBuilder
@@ -16,7 +17,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 
 object EntityRegistry {
-    val TRAIN: EntityType<TrainEntity> = registerMob("train", ::TrainEntity, 4f, 2.5f)
+    val TRAIN: EntityType<TrainEntity> = registerMob("train", ::TrainEntity, 2.2f, 2.7f, 5.5f)
     val COIN: EntityType<CoinEntity> = registerMob("coin", ::CoinEntity, 0.3f, 0.3f)
 
     fun registerEntityAttributes() {
@@ -34,13 +35,16 @@ object EntityRegistry {
 
     private fun <T : MobEntity> registerMob(
         name: String, entity: EntityType.EntityFactory<T>,
-        width: Float, height: Float
+        width: Float, height: Float, length: Float = -1f
     ): EntityType<T> {
+        val dimension = EntityDimensions.changing(width, height)
+        if (length != -1f) {
+            (dimension as ModifiedEntityDimensions).length = length
+        }
         return Registry.register(
             Registries.ENTITY_TYPE,
             name.toId(),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, entity)
-                .dimensions(EntityDimensions.changing(width, height)).build()
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, entity).dimensions(dimension).build()
         )
     }
 }

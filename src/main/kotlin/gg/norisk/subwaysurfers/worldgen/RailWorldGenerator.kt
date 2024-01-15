@@ -7,6 +7,9 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.silkmc.silk.core.text.literal
+import kotlin.math.nextUp
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 import kotlin.random.Random
 
@@ -20,6 +23,9 @@ class RailWorldGenerator(
     val coins: MutableList<MutableList<CoinSpawnInformation>> = mutableListOf(
         mutableListOf(), mutableListOf(), mutableListOf()
     )
+    val trains: MutableList<MutableList<TrainSpawnInformation>> = mutableListOf(
+        mutableListOf(), mutableListOf(), mutableListOf()
+    )
 
     fun tick(player: PlayerEntity, world: ServerWorld) {
         generateRailsForPlayer(player, world)
@@ -29,6 +35,22 @@ class RailWorldGenerator(
         return BlockPos(
             x * direction.offsetX, y * direction.offsetY, z * direction.offsetZ
         )
+    }
+
+    private fun fillTrainList(maxDistance: Int) {
+        repeat(3) { row ->
+            val rowTrains = trains[row]
+            val randomFlag = Random.nextBoolean()
+            repeat(Random.nextInt(0, 5)) { distance ->
+                rowTrains.add(TrainSpawnInformation(randomFlag))
+                if (randomFlag) {
+                    //Abstand
+                    repeat(EntityRegistry.TRAIN.width.nextUp().roundToInt() + 3) {
+                        rowTrains.add((TrainSpawnInformation(false)))
+                    }
+                }
+            }
+        }
     }
 
     private fun fillCoinList(maxDistance: Int) {
@@ -54,8 +76,8 @@ class RailWorldGenerator(
 
             if (distanceToOrigin.mod(maxGenerationDistance) == 0) {
                 fillCoinList(maxCoinDistance)
+                fillTrainList(maxCoinDistance)
             }
-
 
             val currentPos = startPos.offset(direction, distanceToOrigin)
             val scale = 2
@@ -66,6 +88,35 @@ class RailWorldGenerator(
     }
 
     private fun handleNewRailPlacement(row: Int, blockPos: BlockPos, world: ServerWorld) {
+        handleTrainPlacement(row, blockPos, world)
+        handleCoinPlacement(row, blockPos, world)
+    }
+
+    private fun handleTrainPlacement(row: Int, blockPos: BlockPos, world: ServerWorld) {
+        val rowTrains = trains.getOrNull(row) ?: return
+        val trainSpawnInformation = rowTrains.removeFirstOrNull() ?: return
+        if (trainSpawnInformation.shouldSpawn) {
+            val train = EntityRegistry.TRAIN.create(world) ?: return
+            train.yaw = getCorrectYaw()
+            train.bodyYaw = train.yaw
+            train.headYaw = train.bodyYaw
+            train.setPosition(blockPos.toCenterPos().x, blockPos.toCenterPos().y, blockPos.toCenterPos().z)
+            world.spawnEntity(train)
+        }
+    }
+
+    private fun getCorrectYaw(): Float {
+        return when (direction.opposite) {
+            Direction.DOWN -> TODO()
+            Direction.UP -> TODO()
+            Direction.NORTH -> 180f
+            Direction.SOUTH -> 0f
+            Direction.WEST -> 90f
+            Direction.EAST -> -90f
+        }
+    }
+
+    private fun handleCoinPlacement(row: Int, blockPos: BlockPos, world: ServerWorld) {
         val rowCoins = coins.getOrNull(row) ?: return
         val coinSpawnInformation = rowCoins.removeFirstOrNull() ?: return
         if (coinSpawnInformation.shouldSpawn) {

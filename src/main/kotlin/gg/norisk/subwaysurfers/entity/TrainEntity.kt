@@ -36,12 +36,18 @@ class TrainEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEnti
         return super.interactMob(player, hand)
     }
 
+    override fun isCollidable(): Boolean {
+        return true
+    }
+
     // Turn off step sounds since it's a bike
     override fun playStepSound(pos: BlockPos, block: BlockState) {}
 
     // Apply player-controlled movement
     override fun travel(pos: Vec3d) {
         if (this.isAlive) {
+            this.bodyYaw = this.yaw
+            this.headYaw = this.bodyYaw
             if (this.hasPassengers()) {
                 val passenger = controllingPassenger
                 this.prevYaw = yaw
