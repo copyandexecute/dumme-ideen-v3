@@ -20,6 +20,12 @@
         "adapter": "kotlin",
         "value": "gg.norisk.subwaysurfers.SubwaySurfers"
       }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "gg.norisk.subwaysurfers.SubwaySurfers"
+      }
     ]
   },
   "mixins": [

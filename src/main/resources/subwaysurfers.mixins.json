@@ -12,6 +12,7 @@
     "client.MouseMixin",
     "client.input.KeyboardInputMixin",
     "client.network.AbstractClientPlayerEntityMixin",
+    "client.network.ClientPlayerEntityMixin",
     "client.option.GameOptionsMixin",
     "client.render.CameraMixin"
   ],

@@ -1,6 +1,7 @@
 package gg.norisk.subwaysurfers.mixin.client.input;
 
-import gg.norisk.subwaysurfers.subwaysurfers.SubwaySurfersManager;
+import gg.norisk.subwaysurfers.client.ClientSettings;
+import gg.norisk.subwaysurfers.subwaysurfers.SubwaySurferKt;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.input.KeyboardInput;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class KeyboardInputMixin extends Input {
     @Inject(method = "tick", at = @At(value = "TAIL"))
     private void subwaySurfersMoveInjection(boolean slowDown, float f, CallbackInfo ci) {
-        if (SubwaySurfersManager.INSTANCE.isEnabled()) {
+        if (ClientSettings.INSTANCE.isEnabled()) {
             movementForward = 1.0F;
             movementSideways = 0.0f;
             pressingLeft = false;

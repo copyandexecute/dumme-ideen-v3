@@ -1,7 +1,5 @@
 package gg.norisk.subwaysurfers.subwaysurfers
 
-import com.mojang.brigadier.arguments.DoubleArgumentType
-import com.mojang.brigadier.arguments.FloatArgumentType
 import gg.norisk.subwaysurfers.SubwaySurfers.toId
 import gg.norisk.subwaysurfers.event.events.KeyEvents
 import kotlinx.coroutines.Job
@@ -9,13 +7,9 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.option.Perspective
 import net.minecraft.util.math.Vec3d
-import net.silkmc.silk.commands.clientCommand
-import net.silkmc.silk.commands.player
 import net.silkmc.silk.core.annotations.ExperimentalSilkApi
 import net.silkmc.silk.core.entity.modifyVelocity
-import net.silkmc.silk.core.task.infiniteMcCoroutineTask
 import net.silkmc.silk.core.task.mcCoroutineTask
 import net.silkmc.silk.core.text.literal
 import net.silkmc.silk.network.packet.c2sPacket
@@ -24,12 +18,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalSilkApi::class)
 object SubwaySurfersManager {
-    var isEnabled: Boolean = false
-    var desiredCameraDistance: Double = 6.0
-    var yawAndPitch = Pair(90f, 20f)
     var ticks = 0
-    var multiplier = 0
-    var coins = 0
     var runnable: Job? = null
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -42,43 +31,6 @@ object SubwaySurfersManager {
     }
 
     fun init() {
-        clientCommand("subwaysurfers") {
-            literal("start") {
-                runs {
-                    if (!isEnabled) {
-                        MinecraftClient.getInstance().options.perspective = Perspective.THIRD_PERSON_BACK
-                        isEnabled = true
-                        this.source.player.yaw = 90f
-                        this.source.player.pitch = 0f
-                        runnable?.cancel()
-                        runnable = infiniteMcCoroutineTask(client = true) {
-                            if (!MinecraftClient.getInstance().isPaused)
-                                ticks++
-                        }
-                    } else {
-                        isEnabled = false
-                        runnable?.cancel()
-                        MinecraftClient.getInstance().options.perspective = Perspective.FIRST_PERSON
-                    }
-                }
-            }
-            literal("yawAndPitch") {
-                argument("yaw", FloatArgumentType.floatArg()) { yaw ->
-                    argument("pitch", FloatArgumentType.floatArg()) { pitch ->
-                        runs {
-                            yawAndPitch = Pair(yaw(), pitch())
-                        }
-                    }
-                }
-            }
-            literal("desiredCameraDistance") {
-                argument("value", DoubleArgumentType.doubleArg()) { value ->
-                    runs {
-                        desiredCameraDistance = value()
-                    }
-                }
-            }
-        }
         sendClientInput()
         handlePlayerInput()
         //handleLifeCycle()

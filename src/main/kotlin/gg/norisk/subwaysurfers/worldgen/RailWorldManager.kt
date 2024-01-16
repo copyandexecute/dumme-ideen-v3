@@ -1,7 +1,7 @@
 package gg.norisk.subwaysurfers.worldgen
 
-import gg.norisk.subwaysurfers.entity.CoinEntity
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.silkmc.silk.commands.command
 import java.util.*
@@ -13,14 +13,18 @@ object RailWorldManager : ServerTickEvents.EndWorldTick {
         command("railworld") {
             runs {
                 val player = this.source.playerOrThrow
-                if (rails.containsKey(player.uuid)) {
-                    rails.remove(player.uuid)
-                } else {
-                    rails[player.uuid] = RailWorldGenerator(player)
-                }
+                addPlayer(player)
             }
         }
         ServerTickEvents.END_WORLD_TICK.register(this)
+    }
+
+    fun addPlayer(player: PlayerEntity) {
+        if (rails.containsKey(player.uuid)) {
+            rails.remove(player.uuid)
+        } else {
+            rails[player.uuid] = RailWorldGenerator(player)
+        }
     }
 
     override fun onEndTick(world: ServerWorld) {
