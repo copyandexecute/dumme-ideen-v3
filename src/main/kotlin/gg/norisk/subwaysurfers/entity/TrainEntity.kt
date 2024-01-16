@@ -5,10 +5,7 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
@@ -17,37 +14,32 @@ import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegistrar
 import software.bernie.geckolib.util.GeckoLibUtil
+import java.util.*
 
 class TrainEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity {
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
+    var owner: UUID? = null
 
     init {
         this.ignoreCameraFrustum = true
     }
 
-    // Let the player ride the entity
-    override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
-        if (!this.hasPassengers()) {
-            player.startRiding(this)
-
-            return super.interactMob(player, hand)
+    companion object {
+        fun LivingEntity.handleDiscard(owner: UUID?) {
+            val player = world.getPlayerByUuid(owner ?: return)
+            if (player == null) {
+                this.discard()
+            } else {
+                if (player.blockPos.z - 5 > this.blockPos.z) {
+                    this.discard()
+                }
+            }
         }
-
-        return super.interactMob(player, hand)
     }
-
-    override fun isCollidable(): Boolean {
-        return true
-    }
-
-    // Turn off step sounds since it's a bike
-    override fun playStepSound(pos: BlockPos, block: BlockState) {}
 
     // Apply player-controlled movement
     override fun travel(pos: Vec3d) {
         if (this.isAlive) {
-            this.bodyYaw = this.yaw
-            this.headYaw = this.bodyYaw
             if (this.hasPassengers()) {
                 val passenger = controllingPassenger
                 this.prevYaw = yaw
@@ -70,14 +62,24 @@ class TrainEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEnti
         }
     }
 
-    // Get the controlling passenger
-    override fun getControllingPassenger(): LivingEntity? {
-        return firstPassenger as? LivingEntity?
+
+    override fun tick() {
+        super.tick()
+        if (!world.isClient) {
+            handleDiscard(owner)
+        }
     }
 
     override fun isLogicalSideForUpdatingMovement(): Boolean {
         return true
     }
+
+    override fun isCollidable(): Boolean {
+        return true
+    }
+
+    // Turn off step sounds since it's a bike
+    override fun playStepSound(pos: BlockPos, block: BlockState) {}
 
     // Add our generic idle animation controller
     override fun registerControllers(controllers: ControllerRegistrar) {

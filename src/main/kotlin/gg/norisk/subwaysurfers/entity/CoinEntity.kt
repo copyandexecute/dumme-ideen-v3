@@ -1,5 +1,6 @@
 package gg.norisk.subwaysurfers.entity
 
+import gg.norisk.subwaysurfers.entity.TrainEntity.Companion.handleDiscard
 import gg.norisk.subwaysurfers.subwaysurfers.coins
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityType
@@ -21,7 +22,7 @@ import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegistrar
 import software.bernie.geckolib.util.GeckoLibUtil
-import java.util.UUID
+import java.util.*
 
 class CoinEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity {
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
@@ -45,10 +46,7 @@ class CoinEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntit
     override fun tick() {
         super.tick()
         if (!world.isClient) {
-            val player = world.getPlayerByUuid(owner ?: return) ?: return
-            if (player.distanceTo(this) > 200) {
-                this.discard()
-            }
+            handleDiscard(owner)
         }
     }
 
