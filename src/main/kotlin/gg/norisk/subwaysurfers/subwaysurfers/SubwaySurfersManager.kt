@@ -21,18 +21,10 @@ object SubwaySurfersManager {
     var ticks = 0
     var runnable: Job? = null
 
-    @OptIn(ExperimentalSerializationApi::class)
-    private val movementTypePacket = c2sPacket<MovementType>("movement_type".toId())
     private val lifeCyclePacket = c2sPacket<Boolean>("life_cycle".toId())
 
-    @Serializable
-    enum class MovementType {
-        LEFT, RIGHT, JUMP, SLIDE
-    }
 
     fun init() {
-        sendClientInput()
-        handlePlayerInput()
         //handleLifeCycle()
         HudRenderCallback.EVENT.register(HudRenderCallback { matrixStack, tickDelta ->
             val client = MinecraftClient.getInstance()
@@ -67,53 +59,8 @@ object SubwaySurfersManager {
         textRenderer.drawWithShadow(matrixStack, multiplierText, x, 0f, 14737632)
     }*/
 
-    private fun sendClientInput() {
-        if (true) return
-        KeyEvents.keyPressedOnce.listen {
-            if (it.client.options.leftKey.matchesKey(it.key, it.scanCode)) {
-                movementTypePacket.send(MovementType.LEFT)
-            } else if (it.client.options.rightKey.matchesKey(it.key, it.scanCode)) {
-                movementTypePacket.send(MovementType.RIGHT)
-            } else if (it.client.options.jumpKey.matchesKey(it.key, it.scanCode)) {
-                movementTypePacket.send(MovementType.JUMP)
-            } else if (it.client.options.sneakKey.matchesKey(it.key, it.scanCode)) {
-                movementTypePacket.send(MovementType.SLIDE)
-            }
-        }
-    }
 
     //TODO dash unten via sneak
     //TODO jump
     //TODO prodeuzal world gen
-
-
-    private fun handlePlayerInput() {
-        movementTypePacket.receiveOnServer { packet, context ->
-            val player = context.player
-            val dashStrength = 1.0
-
-            if (packet == MovementType.SLIDE) {
-                player.surfer.isSliding = true
-                mcCoroutineTask(delay = 3.seconds) {
-                    player.surfer.isSliding = false
-                }
-            } else if (packet == MovementType.JUMP) {
-                player.modifyVelocity(Vec3d(0.0, 0.3, 0.0))
-            } else if (player.surfer.rail == 1 && packet == MovementType.LEFT) {
-                //TODO ERROR SOUND
-            } else if (player.surfer.rail == 3 && packet == MovementType.RIGHT) {
-                //TODO ERROR SOUND
-            } else {
-                player.sendMessage("Dashed $packet".literal)
-                player.modifyVelocity(
-                    Vec3d(
-                        0.0,
-                        0.0,
-                        if (packet == MovementType.LEFT) dashStrength else -dashStrength
-                    )
-                )
-                player.surfer.rail = player.surfer.rail + (if (packet == MovementType.LEFT) -1 else 1)
-            }
-        }
-    }
 }

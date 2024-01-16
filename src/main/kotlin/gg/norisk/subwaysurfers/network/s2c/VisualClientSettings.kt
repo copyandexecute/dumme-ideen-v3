@@ -8,7 +8,7 @@ import net.silkmc.silk.network.packet.s2cPacket
 data class VisualClientSettings(
     var isEnabled: Boolean = false,
     var desiredCameraDistance: Double = 6.0,
-    var yaw: Float = 90f,
+    var yaw: Float = 0f,
     var pitch: Float = 20f
 )
 

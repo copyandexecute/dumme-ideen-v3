@@ -3,6 +3,7 @@ package gg.norisk.subwaysurfers.server.command
 import com.mojang.brigadier.context.CommandContext
 import gg.norisk.subwaysurfers.network.s2c.VisualClientSettings
 import gg.norisk.subwaysurfers.network.s2c.visualClientSettingsS2C
+import gg.norisk.subwaysurfers.subwaysurfers.rail
 import gg.norisk.subwaysurfers.worldgen.RailWorldManager
 import net.minecraft.server.command.ServerCommandSource
 import net.silkmc.silk.commands.command
@@ -44,7 +45,14 @@ object StartCommand {
         yawArg?.apply { settings.yaw = this }
         pitchArg?.apply { settings.pitch = this }
 
+        if (isEnabled) {
+            val centerPos = player.blockPos.toCenterPos()
+            player.teleport(player.serverWorld, centerPos.x, centerPos.y, centerPos.z, 0f, 0f)
+        }
+
         visualClientSettingsS2C.send(settings, player)
+
+        player.rail = 1
 
         mcCoroutineTask(delay = 1.ticks) {
             RailWorldManager.addPlayer(player)

@@ -25,7 +25,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements SubwaySu
     @Shadow
     public abstract boolean damage(DamageSource source, float amount);
 
-    private static final TrackedData<Integer> RAIL = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final TrackedData<Boolean> SLIDING = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
@@ -47,20 +46,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements SubwaySu
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     private void initDataTrackerInjection(CallbackInfo ci) {
-        this.dataTracker.startTracking(RAIL, 1);
         this.dataTracker.startTracking(SLIDING, false);
+        this.dataTracker.startTracking(SubwaySurferKt.getRailDataTracker(), 1);
         this.dataTracker.startTracking(SubwaySurferKt.getCoinDataTracker(), 0);
         this.dataTracker.startTracking(SubwaySurferKt.getSubwaySurfersTracker(), false);
-    }
-
-    @Override
-    public int getRail() {
-        return this.dataTracker.get(RAIL);
-    }
-
-    @Override
-    public void setRail(int i) {
-        this.dataTracker.set(RAIL, MathHelper.clamp(i, 1, 3));
     }
 
     @Override
