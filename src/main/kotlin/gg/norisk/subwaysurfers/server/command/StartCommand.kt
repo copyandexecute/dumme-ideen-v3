@@ -3,6 +3,7 @@ package gg.norisk.subwaysurfers.server.command
 import com.mojang.brigadier.context.CommandContext
 import gg.norisk.subwaysurfers.network.s2c.VisualClientSettings
 import gg.norisk.subwaysurfers.network.s2c.visualClientSettingsS2C
+import gg.norisk.subwaysurfers.subwaysurfers.isSubwaySurfers
 import gg.norisk.subwaysurfers.subwaysurfers.rail
 import gg.norisk.subwaysurfers.worldgen.RailWorldManager
 import net.minecraft.entity.attribute.EntityAttributes
@@ -11,10 +12,17 @@ import net.silkmc.silk.commands.command
 import net.silkmc.silk.core.kotlin.ticks
 import net.silkmc.silk.core.task.mcCoroutineTask
 import net.silkmc.silk.core.text.broadcastText
+import net.silkmc.silk.core.text.literal
 
 object StartCommand {
     fun init() {
         command("subwaysurfers") {
+            literal("flydebug") {
+                runs {
+                    this.source.playerOrThrow.isSubwaySurfers = !this.source.playerOrThrow.isSubwaySurfers
+                    this.source.playerOrThrow.sendMessage("Is Active: ${this.source.playerOrThrow.isSubwaySurfers}".literal)
+                }
+            }
             literal("stop") {
                 runs { extracted(false) }
             }
@@ -50,6 +58,7 @@ object StartCommand {
         if (isEnabled) {
             val centerPos = player.blockPos.toCenterPos()
             player.teleport(player.serverWorld, centerPos.x, centerPos.y, centerPos.z, 0f, 0f)
+            player.movementSpeed
             player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.4
         } else {
             player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.1

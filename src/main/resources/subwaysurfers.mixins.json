@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "entity.EntityDimensionsMixin",
+    "entity.LivingEntityMixin",
     "entity.player.PlayerEntityMixin"
   ],
   "client": [
