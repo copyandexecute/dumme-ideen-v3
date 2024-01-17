@@ -12,7 +12,7 @@ public abstract class WorldRendererMixin {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/DimensionEffects;useThickFog(II)Z"))
     private boolean injected(DimensionEffects instance, int i, int i2) {
         if (SubwaySurferKt.isEnabled()) {
-            return true;
+            return false;
         } else {
             return instance.useThickFog(i, i2);
         }
