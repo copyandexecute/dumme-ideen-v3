@@ -17,7 +17,7 @@ class RailWorldGenerator(
     val player: PlayerEntity,
     val direction: Direction = player.horizontalFacing,
     val startPos: BlockPos = player.blockPos,
-    val maxGenerationDistance: Int = 20
+    val maxGenerationDistance: Int = 50
 ) {
     var latestDistance: Int = 0
     val coins: MutableList<MutableList<CoinSpawnInformation>> = mutableListOf(

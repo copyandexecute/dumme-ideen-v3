@@ -5,10 +5,12 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import net.silkmc.silk.core.text.broadcastText
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
@@ -62,6 +64,12 @@ class TrainEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEnti
         }
     }
 
+    override fun onPlayerCollision(playerEntity: PlayerEntity) {
+        super.onPlayerCollision(playerEntity)
+        if (!world.isClient) {
+            //TODO collision
+        }
+    }
 
     override fun tick() {
         super.tick()

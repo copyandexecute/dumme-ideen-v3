@@ -59,9 +59,11 @@ object StartCommand {
             val centerPos = player.blockPos.toCenterPos()
             player.teleport(player.serverWorld, centerPos.x, centerPos.y, centerPos.z, 0f, 0f)
             player.movementSpeed
+            player.isSubwaySurfers = true
             player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.4
         } else {
             player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.1
+            player.isSubwaySurfers = false
         }
 
         visualClientSettingsS2C.send(settings, player)
