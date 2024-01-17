@@ -49,6 +49,14 @@ var PlayerEntity.dashStrength: Double
         this.dataTracker.set(dashStrengthTracker, value.toFloat())
     }
 
+var PlayerEntity.multiplier: Int
+    get() {
+        return this.dataTracker.get(multiplierTracker)
+    }
+    set(value) {
+        this.dataTracker.set(multiplierTracker,value)
+    }
+
 var PlayerEntity.rail: Int
     get() {
         return this.dataTracker.get(railDataTracker)
@@ -82,6 +90,8 @@ val gravityTracker =
 val jumpStrengthTracker =
     DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.FLOAT)
 val railDataTracker =
+    DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+val multiplierTracker =
     DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 val lastCameraTracker =
     DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.VECTOR3F)

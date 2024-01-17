@@ -3,6 +3,7 @@ package gg.norisk.subwaysurfers.server.command
 import com.mojang.brigadier.context.CommandContext
 import gg.norisk.subwaysurfers.network.s2c.VisualClientSettings
 import gg.norisk.subwaysurfers.network.s2c.visualClientSettingsS2C
+import gg.norisk.subwaysurfers.subwaysurfers.coins
 import gg.norisk.subwaysurfers.subwaysurfers.isSubwaySurfers
 import gg.norisk.subwaysurfers.subwaysurfers.rail
 import gg.norisk.subwaysurfers.worldgen.RailWorldManager
@@ -60,6 +61,7 @@ object StartCommand {
             player.teleport(player.serverWorld, centerPos.x, centerPos.y, centerPos.z, 0f, 0f)
             player.movementSpeed
             player.isSubwaySurfers = true
+            player.coins = 0
             player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.4
         } else {
             player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.1

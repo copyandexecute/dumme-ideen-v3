@@ -1,6 +1,7 @@
 package gg.norisk.subwaysurfers
 
 import gg.norisk.subwaysurfers.client.ClientSettings
+import gg.norisk.subwaysurfers.client.hud.InGameHud
 import gg.norisk.subwaysurfers.client.input.KeyboardInput
 import gg.norisk.subwaysurfers.registry.EntityRegistry
 import gg.norisk.subwaysurfers.registry.EntityRendererRegistry
@@ -27,6 +28,7 @@ object SubwaySurfers : ModInitializer, ClientModInitializer {
     override fun onInitializeClient() {
         ClientSettings.init()
         KeyboardInput.init()
+        InGameHud.init()
     }
 
     fun String.toId() = Identifier("subwaysurfers", this)
