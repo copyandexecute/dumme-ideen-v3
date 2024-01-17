@@ -15,7 +15,9 @@
     "client.network.AbstractClientPlayerEntityMixin",
     "client.network.ClientPlayerEntityMixin",
     "client.option.GameOptionsMixin",
-    "client.render.CameraMixin"
+    "client.render.BackgroundRendererMixin",
+    "client.render.CameraMixin",
+    "client.render.WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

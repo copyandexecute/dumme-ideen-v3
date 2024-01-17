@@ -28,6 +28,7 @@
       }
     ]
   },
+  "accessWidener": "subwaysurfers.accesswidener",
   "mixins": [
     "subwaysurfers.mixins.json"
   ],
