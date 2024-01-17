@@ -97,6 +97,7 @@ class RailWorldGenerator(
         val trainSpawnInformation = rowTrains.removeFirstOrNull() ?: return
         if (trainSpawnInformation.shouldSpawn) {
             val train = EntityRegistry.TRAIN.create(world) ?: return
+            train.shouldDrive = true
             train.owner = player.uuid
             train.yaw = getCorrectYaw()
             train.bodyYaw = train.yaw

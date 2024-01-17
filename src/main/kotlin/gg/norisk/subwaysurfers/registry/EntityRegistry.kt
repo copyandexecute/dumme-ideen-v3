@@ -17,7 +17,7 @@ import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 
 object EntityRegistry {
-    val TRAIN: EntityType<TrainEntity> = registerMob("train", ::TrainEntity, 2.2f, 2.7f, 5.5f)
+    val TRAIN: EntityType<TrainEntity> = registerMob("train", ::TrainEntity, 1.8f, 2.7f, 5.5f)
     val COIN: EntityType<CoinEntity> = registerMob("coin", ::CoinEntity, 0.3f, 0.3f)
 
     fun registerEntityAttributes() {

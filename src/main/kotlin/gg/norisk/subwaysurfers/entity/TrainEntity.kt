@@ -1,8 +1,12 @@
 package gg.norisk.subwaysurfers.entity
 
 import net.minecraft.block.BlockState
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -10,7 +14,6 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import net.silkmc.silk.core.text.broadcastText
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
@@ -22,11 +25,22 @@ class TrainEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEnti
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
     var owner: UUID? = null
 
+    var shouldDrive: Boolean
+        get() {
+            return this.dataTracker.get(DRIVE)
+        }
+        set(value) {
+            this.dataTracker.set(DRIVE, value)
+        }
+
     init {
         this.ignoreCameraFrustum = true
     }
 
     companion object {
+        private val DRIVE: TrackedData<Boolean> =
+            DataTracker.registerData(TrainEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+
         fun LivingEntity.handleDiscard(owner: UUID?) {
             val player = world.getPlayerByUuid(owner ?: return)
             if (player == null) {
@@ -39,28 +53,26 @@ class TrainEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEnti
         }
     }
 
-    // Apply player-controlled movement
+    override fun initDataTracker() {
+        super.initDataTracker()
+        this.dataTracker.startTracking(DRIVE, false)
+    }
+
+    override fun collidesWith(entity: Entity): Boolean {
+        if (entity is TrainEntity) {
+            return false
+        }
+        return super.collidesWith(entity)
+    }
+
     override fun travel(pos: Vec3d) {
-        if (this.isAlive) {
-            if (this.hasPassengers()) {
-                val passenger = controllingPassenger
-                this.prevYaw = yaw
-                this.prevPitch = pitch
+        if (this.isAlive && shouldDrive) {
+            val x = 0f
+            var z = 1f
 
-                yaw = passenger!!.yaw
-                pitch = passenger.pitch * 0.5f
-                setRotation(yaw, pitch)
+            movementSpeed = 0.3f
 
-                this.bodyYaw = this.yaw
-                this.headYaw = this.bodyYaw
-                val x = passenger.sidewaysSpeed * 0.5f
-                var z = passenger.forwardSpeed
-
-                if (z <= 0) z *= 0.25f
-
-                this.movementSpeed = 0.3f
-                super.travel(Vec3d(x.toDouble(), pos.y, z.toDouble()))
-            }
+            super.travel(Vec3d(x.toDouble(), pos.y, z.toDouble()))
         }
     }
 
