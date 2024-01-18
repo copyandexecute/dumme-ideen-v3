@@ -54,7 +54,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements SubwaySu
     @Inject(method = "tick", at = @At("HEAD"))
     private void tickInjection(CallbackInfo ci) {
         if (!this.getWorld().isClient) {
-
+            SubwaySurferKt.handleMagnet((PlayerEntity) (Object) this);
         }
     }
 
@@ -106,6 +106,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements SubwaySu
         this.dataTracker.startTracking(SubwaySurferKt.getLastCameraTracker(), this.getPos().toVector3f());
         this.dataTracker.startTracking(SubwaySurferKt.getCoinDataTracker(), 0);
         this.dataTracker.startTracking(SubwaySurferKt.getSubwaySurfersTracker(), false);
+        this.dataTracker.startTracking(SubwaySurferKt.getMagnetTracker(), false);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.mojang.brigadier.context.CommandContext
 import gg.norisk.subwaysurfers.network.s2c.VisualClientSettings
 import gg.norisk.subwaysurfers.network.s2c.visualClientSettingsS2C
 import gg.norisk.subwaysurfers.subwaysurfers.coins
+import gg.norisk.subwaysurfers.subwaysurfers.isMagnetic
 import gg.norisk.subwaysurfers.subwaysurfers.isSubwaySurfers
 import gg.norisk.subwaysurfers.subwaysurfers.rail
 import gg.norisk.subwaysurfers.worldgen.RailWorldManager
@@ -18,6 +19,12 @@ import net.silkmc.silk.core.text.literal
 object StartCommand {
     fun init() {
         command("subwaysurfers") {
+            literal("magnet") {
+                runs {
+                    this.source.playerOrThrow.isMagnetic = !this.source.playerOrThrow.isMagnetic
+                    this.source.playerOrThrow.sendMessage("Is Active: ${this.source.playerOrThrow.isMagnetic}".literal)
+                }
+            }
             literal("flydebug") {
                 runs {
                     this.source.playerOrThrow.isSubwaySurfers = !this.source.playerOrThrow.isSubwaySurfers

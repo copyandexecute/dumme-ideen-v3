@@ -1,7 +1,8 @@
 package gg.norisk.subwaysurfers.entity
 
 import gg.norisk.subwaysurfers.entity.TrainEntity.Companion.handleDiscard
-import gg.norisk.subwaysurfers.subwaysurfers.coins
+import gg.norisk.subwaysurfers.subwaysurfers.isMagnetic
+import kotlinx.coroutines.Job
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -9,24 +10,27 @@ import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
-import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import net.silkmc.silk.core.task.mcCoroutineTask
 import software.bernie.geckolib.animatable.GeoEntity
 import software.bernie.geckolib.constant.DefaultAnimations
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache
 import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegistrar
 import software.bernie.geckolib.util.GeckoLibUtil
 import java.util.*
+import kotlin.time.Duration.Companion.seconds
 
 class MagnetEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity {
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
     var owner: UUID? = null
+
+    companion object {
+        val magnetMap = mutableMapOf<UUID, Job>()
+    }
 
     init {
         this.ignoreCameraFrustum = true
@@ -52,7 +56,15 @@ class MagnetEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEnt
 
     override fun onPlayerCollision(player: PlayerEntity) {
         if (!world.isClient) {
-            //TODO
+            magnetMap[player.uuid]?.cancel()
+
+            player.isMagnetic = true
+            magnetMap[player.uuid] = mcCoroutineTask(delay = 5.seconds) {
+                player.isMagnetic = false
+                magnetMap.remove(player.uuid)
+            }
+
+            this.discard()
         }
     }
 
