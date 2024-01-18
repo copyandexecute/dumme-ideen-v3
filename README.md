@@ -10,12 +10,12 @@
 - [ ] Seite Sliden
 
 ### Items
+- [ ] Jetpack
 
 ### Gameplay
 - [ ] Gameloop
 - [ ] Fehler bestrafen (Wenn man slided da aber was ist)
 - [ ] Polizist Rendern
-
 
 ### Misc
 - [ ] VANILLA RAILS KOPIEREN!!!
