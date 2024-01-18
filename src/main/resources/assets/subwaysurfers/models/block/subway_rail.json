@@ -1,0 +1,6 @@
+{
+  "parent": "subwaysurfers:block/subway_rail_flat",
+  "textures": {
+    "rail": "subwaysurfers:block/subway_rail"
+  }
+}

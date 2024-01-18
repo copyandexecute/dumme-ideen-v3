@@ -5,3 +5,4 @@
 - Musik
 - Polizisten
 - Fehler bestrafen 
+- VANILLA RAILS KOPIEREN!!!
