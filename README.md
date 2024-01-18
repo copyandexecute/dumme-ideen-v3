@@ -1,16 +1,23 @@
-- Fahrrende Züge
-- Nebel
-- Game Loop
-- Items
-- Musik
-- Polizisten
-- Fehler bestrafen (Wenn man slided da aber was ist)
-- VANILLA RAILS KOPIEREN!!!
-- Animations
-- 1. Rolle auf boden / Slide
-- 2. Sprung Animation (Multiple Saltos)
-- 3. Zur Seite
+# TODOS
 
-BLÖCKE
-- Absperrband tief
-- Absperrband hoch
+### Blöcke
+- [ ] Absperrband Tief
+- [ ] Absperrband Hoch
+
+### Animationen
+- [ ] Rolle auf Boden
+- [ ] Sprungrolle
+- [ ] Seite Sliden
+
+### Items
+
+### Gameplay
+- [ ] Gameloop
+- [ ] Fehler bestrafen (Wenn man slided da aber was ist)
+- [ ] Polizist Rendern
+
+
+### Misc
+- [ ] VANILLA RAILS KOPIEREN!!!
+- [ ] Nebel
+- [ ] Musik
