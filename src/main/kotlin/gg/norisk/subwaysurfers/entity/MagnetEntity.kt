@@ -24,9 +24,9 @@ import software.bernie.geckolib.util.GeckoLibUtil
 import java.util.*
 import kotlin.time.Duration.Companion.seconds
 
-class MagnetEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity {
+class MagnetEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity, UUIDMarker {
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
-    var owner: UUID? = null
+    override var owner: UUID? = null
 
     companion object {
         val magnetMap = mutableMapOf<UUID, Job>()

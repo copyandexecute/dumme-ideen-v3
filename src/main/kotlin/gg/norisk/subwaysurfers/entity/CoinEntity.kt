@@ -23,9 +23,9 @@ import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegis
 import software.bernie.geckolib.util.GeckoLibUtil
 import java.util.*
 
-class CoinEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity {
+class CoinEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity, UUIDMarker {
+    override var owner: UUID? = null
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
-    var owner: UUID? = null
 
     init {
         this.ignoreCameraFrustum = true
@@ -47,7 +47,6 @@ class CoinEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntit
     override fun onPlayerCollision(player: PlayerEntity) {
         if (!world.isClient) {
             player.coins++
-            player.sendMessage(Text.of("Coins: ${player.coins}"), true)
             player.playSound(
                 SoundEvents.ENTITY_ITEM_PICKUP,
                 SoundCategory.PLAYERS,

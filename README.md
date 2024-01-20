@@ -8,16 +8,18 @@
 - [x] Rolle auf Boden
 - [x] Sprungrolle
 - [x] Seite Sliden
+- [ ] Stern Animation Bei Schaden
 
 ### Items
 - [ ] Jetpack
 
 ### Gameplay
-- [ ] Gameloop
-- [ ] Fehler bestrafen (Wenn man slided da aber was ist)
-- [ ] Polizist Rendern
+- [x] Gameloop
+- [x] Fehler bestrafen (Wenn man slided da aber was ist)
+- [x] Polizist Rendern
 
 ### Misc
 - [ ] VANILLA RAILS KOPIEREN!!!
+- [ ] Curved World
 - [ ] Nebel
 - [ ] Musik

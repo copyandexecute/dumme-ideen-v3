@@ -20,12 +20,12 @@ val isEnabled: Boolean
         return MinecraftClient.getInstance().player?.isSubwaySurfers == true
     }
 
-var PlayerEntity.lastCameraX: Vector3f
+var PlayerEntity.punishTicks: Int
     get() {
-        return this.dataTracker.get(lastCameraTracker)
+        return this.dataTracker.get(punishTicksTracker)
     }
     set(value) {
-        this.dataTracker.set(lastCameraTracker, value)
+        this.dataTracker.set(punishTicksTracker, value)
     }
 
 var PlayerEntity.gravity: Double
@@ -92,6 +92,13 @@ var PlayerEntity.coins: Int
         this.dataTracker.set(coinDataTracker, value)
     }
 
+fun PlayerEntity.handlePunishTicks() {
+    if (punishTicks > 0) {
+        --punishTicks
+
+    }
+}
+
 fun PlayerEntity.handleMagnet() {
     if (isMagnetic) {
         for (coin in world.getEntitiesByClass(CoinEntity::class.java, boundingBox.expand(5.0)) { true }) {
@@ -117,8 +124,8 @@ val railDataTracker =
     DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 val multiplierTracker =
     DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-val lastCameraTracker =
-    DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.VECTOR3F)
+val punishTicksTracker =
+    DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 val subwaySurfersTracker =
     DataTracker.registerData(PlayerEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 val magnetTracker =
