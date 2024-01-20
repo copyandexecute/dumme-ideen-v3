@@ -15,9 +15,18 @@ version = "${mcVersion}-1.0.0"
 repositories {
     mavenCentral()
     maven("https://maven.kosmx.dev/")
+    maven("https://maven.wispforest.io")
     maven {
         name = "GeckoLib"
         url = uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    }
+    exclusiveContent {
+        forRepository {
+            maven("https://api.modrinth.com/maven")
+        }
+        filter {
+            includeGroup("maven.modrinth")
+        }
     }
 }
 
@@ -34,6 +43,8 @@ dependencies {
 
     modImplementation("software.bernie.geckolib:geckolib-fabric-$mcVersion:4.3.1")
     modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:1.0.2-rc1+1.20")
+    modImplementation("io.wispforest:owo-lib:0.11.2+1.20")
+    modImplementation("maven.modrinth:iris:1.6.10+1.20.2")
 }
 
 loom {

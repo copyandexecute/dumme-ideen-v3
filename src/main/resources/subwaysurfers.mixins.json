@@ -9,6 +9,7 @@
     "entity.player.PlayerEntityMixin"
   ],
   "client": [
+    "client.IrisMixin",
     "client.KeyboardMixin",
     "client.MouseMixin",
     "client.input.KeyboardInputMixin",
@@ -17,7 +18,8 @@
     "client.option.GameOptionsMixin",
     "client.render.BackgroundRendererMixin",
     "client.render.CameraMixin",
-    "client.render.WorldRendererMixin"
+    "client.render.WorldRendererMixin",
+    "client.render.entity.PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

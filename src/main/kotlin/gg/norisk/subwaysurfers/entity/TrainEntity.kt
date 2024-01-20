@@ -21,9 +21,9 @@ import software.bernie.geckolib.core.animation.AnimatableManager.ControllerRegis
 import software.bernie.geckolib.util.GeckoLibUtil
 import java.util.*
 
-class TrainEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity {
+class TrainEntity(type: EntityType<out AnimalEntity>, level: World) : AnimalEntity(type, level), GeoEntity, UUIDMarker {
     private val cache: AnimatableInstanceCache = GeckoLibUtil.createInstanceCache(this)
-    var owner: UUID? = null
+    override var owner: UUID? = null
 
     var shouldDrive: Boolean
         get() {

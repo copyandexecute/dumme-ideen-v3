@@ -1,8 +1,6 @@
 package gg.norisk.subwaysurfers.mixin.client;
 
 import gg.norisk.subwaysurfers.client.ClientSettings;
-import gg.norisk.subwaysurfers.subwaysurfers.SubwaySurferKt;
-import gg.norisk.subwaysurfers.subwaysurfers.SubwaySurfersManager;
 import net.minecraft.client.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

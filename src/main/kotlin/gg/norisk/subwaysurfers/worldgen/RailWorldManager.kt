@@ -19,6 +19,10 @@ object RailWorldManager : ServerTickEvents.EndWorldTick {
         ServerTickEvents.END_WORLD_TICK.register(this)
     }
 
+    fun removePlayer(player: PlayerEntity) {
+        rails.remove(player.uuid)
+    }
+
     fun addPlayer(player: PlayerEntity) {
         if (rails.containsKey(player.uuid)) {
             rails.remove(player.uuid)

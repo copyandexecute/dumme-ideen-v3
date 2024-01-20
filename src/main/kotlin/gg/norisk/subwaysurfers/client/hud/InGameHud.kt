@@ -18,7 +18,7 @@ object InGameHud : HudRenderCallback {
     }
 
     override fun onHudRender(drawContext: DrawContext, tickDelta: Float) {
-        if (MinecraftClient.getInstance().player?.isSubwaySurfers == true) {
+        if (MinecraftClient.getInstance().player?.isSubwaySurfers == true && MinecraftClient.getInstance().currentScreen == null) {
             val textRenderer = MinecraftClient.getInstance().textRenderer
             val tickX = renderTicks(drawContext, textRenderer)
             renderCoins(drawContext, textRenderer)
