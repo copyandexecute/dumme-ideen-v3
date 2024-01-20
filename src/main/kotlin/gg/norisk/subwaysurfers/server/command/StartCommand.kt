@@ -57,7 +57,8 @@ object StartCommand {
         player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)?.baseValue = 0.1
         player.rail = 1
         RailWorldManager.removePlayer(player)
-        for (entity in player.serverWorld.iterateEntities()) {
+        val entites = player.serverWorld.iterateEntities().toList()
+        for (entity in entites) {
             if (entity is UUIDMarker && entity.owner == player.uuid) {
                 entity.discard()
             }

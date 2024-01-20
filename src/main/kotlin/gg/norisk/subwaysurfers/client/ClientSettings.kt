@@ -34,6 +34,10 @@ object ClientSettings : ClientTickEvents.EndTick {
         return settings.isEnabled
     }
 
+    fun disable() {
+        settings.isEnabled = false
+    }
+
     fun onToggle(player: ClientPlayerEntity) {
         if (player.isSubwaySurfers) {
             ridingTicks = 0

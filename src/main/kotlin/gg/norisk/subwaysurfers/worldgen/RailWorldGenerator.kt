@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.silkmc.silk.core.text.literal
 import kotlin.math.nextUp
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
@@ -21,7 +20,12 @@ class RailWorldGenerator(
     val maxGenerationDistance: Int = 50
 ) {
     var latestDistance: Int = 0
+
+    //TODO das muss alles besser gemacht werden lol
     val coins: MutableList<MutableList<CoinSpawnInformation>> = mutableListOf(
+        mutableListOf(), mutableListOf(), mutableListOf()
+    )
+    val items: MutableList<MutableList<CoinSpawnInformation>> = mutableListOf(
         mutableListOf(), mutableListOf(), mutableListOf()
     )
     val trains: MutableList<MutableList<TrainSpawnInformation>> = mutableListOf(
@@ -46,7 +50,7 @@ class RailWorldGenerator(
                 rowTrains.add(TrainSpawnInformation(randomFlag))
                 if (randomFlag) {
                     //Abstand
-                    repeat(EntityRegistry.TRAIN.width.nextUp().roundToInt() + 3) {
+                    repeat(1) {
                         rowTrains.add((TrainSpawnInformation(false)))
                     }
                 }
@@ -68,16 +72,16 @@ class RailWorldGenerator(
         val playerPos = player.blockPos.toAxisPos(direction)
         val startAxisPos = startPos.toAxisPos(direction)
 
-        val maxCoinDistance = 30
-
         val distanceToOrigin = sqrt(playerPos.getSquaredDistance(startAxisPos)).toInt()
 
         if (distanceToOrigin > latestDistance) {
             latestDistance = distanceToOrigin
 
-            if (distanceToOrigin.mod(maxGenerationDistance) == 0) {
-                fillCoinList(maxCoinDistance)
-                fillTrainList(maxCoinDistance)
+            if (coins.all { it.isEmpty() }) {
+                fillCoinList(100)
+            }
+            if (trains.all { it.isEmpty() }) {
+                fillTrainList(100)
             }
 
             val currentPos = startPos.offset(direction, distanceToOrigin)

@@ -23,6 +23,7 @@ object SubwaySurfers : ModInitializer, ClientModInitializer {
         EntityRegistry.registerEntityAttributes()
         SoundRegistry.init()
         BlockRegistry.init()
+        ItemRegistry.init()
         EntityRendererRegistry.init()
         RailWorldManager.init()
         StartCommand.init()
