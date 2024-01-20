@@ -9,6 +9,7 @@
     "entity.player.PlayerEntityMixin"
   ],
   "client": [
+    "client.IrisMixin",
     "client.KeyboardMixin",
     "client.MouseMixin",
     "client.input.KeyboardInputMixin",

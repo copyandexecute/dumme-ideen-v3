@@ -19,7 +19,8 @@
 - [x] Polizist Rendern
 
 ### Misc
-- [ ] VANILLA RAILS KOPIEREN!!!
-- [ ] Curved World
+- [X] VANILLA RAILS KOPIEREN!!!
+- [X] Curved World
+- [ ] Shader aufs Minimum reduzierew 
 - [ ] Nebel
 - [ ] Musik
