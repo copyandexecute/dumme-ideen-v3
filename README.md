@@ -17,6 +17,8 @@
 - [x] Gameloop
 - [x] Fehler bestrafen (Wenn man slided da aber was ist)
 - [x] Polizist Rendern
+- [ ] Sprünge resetten
+- [ ] Items/Trains/Coins geiler spawnen
 
 ### Misc
 - [X] VANILLA RAILS KOPIEREN!!!
