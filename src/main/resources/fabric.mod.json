@@ -33,7 +33,7 @@
     "subwaysurfers.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.15.0",
+    "fabricloader": "*",
     "fabric": "*",
     "minecraft": "*",
     "java": ">=17",
