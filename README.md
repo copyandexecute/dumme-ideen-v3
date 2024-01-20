@@ -5,9 +5,9 @@
 - [ ] Absperrband Hoch
 
 ### Animationen
-- [ ] Rolle auf Boden
-- [ ] Sprungrolle
-- [ ] Seite Sliden
+- [x] Rolle auf Boden
+- [x] Sprungrolle
+- [x] Seite Sliden
 
 ### Items
 - [ ] Jetpack

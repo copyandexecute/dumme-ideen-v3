@@ -3,6 +3,7 @@ package gg.norisk.subwaysurfers
 import gg.norisk.subwaysurfers.client.ClientSettings
 import gg.norisk.subwaysurfers.client.hud.InGameHud
 import gg.norisk.subwaysurfers.client.input.KeyboardInput
+import gg.norisk.subwaysurfers.client.listener.ClientAnimationListener
 import gg.norisk.subwaysurfers.registry.*
 import gg.norisk.subwaysurfers.server.command.StartCommand
 import gg.norisk.subwaysurfers.server.listener.MovementInputListener
@@ -29,6 +30,7 @@ object SubwaySurfers : ModInitializer, ClientModInitializer {
         KeyboardInput.init()
         InGameHud.init()
         BlockRendererRegistry.init()
+        ClientAnimationListener.init()
     }
 
     fun String.toId() = Identifier("subwaysurfers", this)
