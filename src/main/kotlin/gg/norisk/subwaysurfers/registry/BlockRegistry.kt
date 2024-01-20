@@ -11,7 +11,7 @@ import net.minecraft.sound.BlockSoundGroup
 object BlockRegistry {
     val SUBWAY_RAIL = registerBlock(
         "subway_rail",
-        SubwayRailBlock(AbstractBlock.Settings.create().noCollision().strength(0.7f).sounds(BlockSoundGroup.METAL))
+        SubwayRailBlock(AbstractBlock.Settings.create().noCollision().nonOpaque().strength(0.7f).sounds(BlockSoundGroup.METAL))
     )
 
     private fun <B : Block> registerBlock(name: String, block: B): B {

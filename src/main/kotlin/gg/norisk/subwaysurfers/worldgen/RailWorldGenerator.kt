@@ -1,5 +1,6 @@
 package gg.norisk.subwaysurfers.worldgen
 
+import gg.norisk.subwaysurfers.registry.BlockRegistry
 import gg.norisk.subwaysurfers.registry.EntityRegistry
 import net.minecraft.block.Blocks
 import net.minecraft.entity.SpawnReason
@@ -159,8 +160,8 @@ class RailWorldGenerator(
         if (blockState.isAir && !world.getBlockState(blockPos.down()).isSolid) {
             return false
         }
-        if (!blockState.isOf(Blocks.RAIL)) {
-            world.setBlockState(blockPos, Blocks.RAIL.defaultState)
+        if (!blockState.isOf(BlockRegistry.SUBWAY_RAIL)) {
+            world.setBlockState(blockPos, BlockRegistry.SUBWAY_RAIL.defaultState)
             return true
         }
         return false
